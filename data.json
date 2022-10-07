@@ -1,10 +1,15 @@
 {
-    "posts": [
-      {
-        "id": 1,
-        "name": "john doe",
-        "mail": "johnDoe00@gmail.com.",
-        "password":"John1234@"
-      }
-    ]
-  }
+  "posts": [
+    {
+      "id": 1,
+      "name": "john doe",
+      "mail": "johnDoe00@gmail.com.",
+      "password": "John1234@"
+    },
+    {
+      "mail": "abc@naver.com",
+      "pwd": "Abcd1234@",
+      "id": 2
+    }
+  ]
+}

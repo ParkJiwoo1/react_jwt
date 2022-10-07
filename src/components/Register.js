@@ -1,10 +1,4 @@
 import { useRef, useState, useEffect } from "react";
-import {
-  faCheck,
-  faTimes,
-  faInfoCircle,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "../api/axios";
 import "../css/Register.css";
 
@@ -96,7 +90,7 @@ const Register = () => {
       ) : (
         <div className="box">
           <div className="container">
-            <div>로그인</div>
+            <div>회원가입</div>
             <form className="form" onSubmit={handleSubmit}>
               <p className="desc">이름</p>
               <input
