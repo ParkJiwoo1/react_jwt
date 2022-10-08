@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import "../css/Register.css";
 
@@ -9,6 +10,7 @@ const EMAIL_REGEX =
 const REGISTER_URL = "/posts";
 
 const Register = () => {
+  let navigate = useNavigate();
   const userRef = useRef();
   const errRef = useRef();
 
@@ -84,9 +86,7 @@ const Register = () => {
   return (
     <>
       {success ? (
-        <section>
-          <h1>success</h1>
-        </section>
+        navigate("/")
       ) : (
         <div className="box">
           <div className="container">

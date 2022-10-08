@@ -1,6 +1,9 @@
 import { useRef, useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
+import axios from "../api/axios";
+const LOGIN_URL = "/auth";
 function Login() {
+  let navigate = useNavigate();
   const userRef = useRef();
   const errRef = useRef();
 
@@ -15,8 +18,18 @@ function Login() {
   useEffect(() => {
     setErrMsg("");
   }, [mail, pwd]);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await axios.post(
+        LOGIN_URL,
+        JSON.stringify({ mail, pwd }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+    } catch (err) {}
     setMail("");
     setPwd("");
     setSuccess(true);
@@ -24,9 +37,7 @@ function Login() {
   return (
     <>
       {success ? (
-        <section>
-          <a href="#">home</a>
-        </section>
+        navigate("/")
       ) : (
         <div className="box">
           <div className="container">
