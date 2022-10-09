@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
+
 const LOGIN_URL = "/auth";
 function Login() {
   let navigate = useNavigate();
@@ -29,10 +30,12 @@ function Login() {
           withCredentials: true,
         }
       );
+
+      setMail("");
+      setPwd("");
+      setSuccess(true);
     } catch (err) {}
-    setMail("");
-    setPwd("");
-    setSuccess(true);
+    console.log("error");
   };
   return (
     <>
