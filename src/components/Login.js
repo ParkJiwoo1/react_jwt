@@ -1,9 +1,11 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
+import AuthContext from "../api/AuthProvider";
 
 const LOGIN_URL = "/auth";
 function Login() {
+  const { setAuth } = useContext(AuthContext);
   let navigate = useNavigate();
   const userRef = useRef();
   const errRef = useRef();
@@ -30,12 +32,25 @@ function Login() {
           withCredentials: true,
         }
       );
-
+      console.log(JSON.stringify(response?.data));
+      const accessToken = response?.data?.accessToken;
+      const roles = response?.data.roles;
+      setAuth({ mail, pwd, roles, accessToken });
       setMail("");
       setPwd("");
       setSuccess(true);
-    } catch (err) {}
-    console.log("error");
+    } catch (err) {
+      if (!err?.responose) {
+        setErrMsg("No server response");
+      } else if (err.response?.status === 400) {
+        setErrMsg("missing email or password");
+      } else if (err.respone?.status === 401) {
+        setErrMsg("unauthorized");
+      } else {
+        setErrMsg("login failed");
+      }
+      errRef.current.focus();
+    }
   };
   return (
     <>
