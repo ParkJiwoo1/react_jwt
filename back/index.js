@@ -6,18 +6,27 @@ const users = [
   {
     id: "1",
     username: "park",
+    mail: "park@gmail.com",
     pwd: "a1234",
     isAdmin: true,
-  },
-  {
-    id: "2",
-    username: "jane",
-    pwd: "Jane0908",
-    isAdmin: false,
   },
 ];
 
 let refreshTokens = [];
+
+app.post("/api/register", (req, res) => {
+  const { username, mail, pwd } = req.body;
+  const isAdmin = true;
+  const check = users.find((x) => x.mail === mail);
+  if (!check) {
+    users.push({ username, mail, pwd, isAdmin });
+    console.log({ username, mail, pwd, isAdmin });
+    console.log(users);
+    res.json({ username, mail, pwd, isAdmin });
+  } else {
+    res.json("already exist");
+  }
+});
 
 app.post("/api/refresh", (req, res) => {
   const refreshToken = req.body.token;
@@ -42,7 +51,7 @@ app.post("/api/refresh", (req, res) => {
 
 const generateAccessToken = (user) => {
   return jwt.sign({ id: user.id, isAdmin: user.isAdmin }, "tokenKey", {
-    expiresIn: "15m",
+    expiresIn: "5s",
   });
 };
 const generateRefreshToken = (user) => {
@@ -50,16 +59,16 @@ const generateRefreshToken = (user) => {
 };
 
 app.post("/api/login", (req, res) => {
-  const { username, pwd } = req.body;
+  const { mail, pwd } = req.body;
   const user = users.find((x) => {
-    return x.username === username && x.pwd === pwd;
+    return x.mail === mail && x.pwd === pwd;
   });
   if (user) {
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
     refreshTokens.push(refreshToken);
     res.json({
-      username: user.username,
+      mail: user.mail,
       isAdmin: user.isAdmin,
       accessToken,
       refreshToken,

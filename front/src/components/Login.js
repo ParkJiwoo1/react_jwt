@@ -1,11 +1,11 @@
 import { useRef, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../api/axios";
+import axios from "axios";
 import useAuth from "../api/useAuth";
 
-const LOGIN_URL = "/auth";
+const LOGIN_URL = "/login";
 function Login() {
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   let navigate = useNavigate();
   const userRef = useRef();
   const errRef = useRef();
@@ -21,6 +21,7 @@ function Login() {
   useEffect(() => {
     setErrMsg("");
   }, [mail, pwd]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
