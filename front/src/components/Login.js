@@ -2,10 +2,11 @@ import { useRef, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../api/useAuth";
-
+import { Cookies } from "react-cookie";
 const LOGIN_URL = "/login";
 function Login() {
   const { auth, setAuth } = useAuth();
+  const cookies = new Cookies();
   let navigate = useNavigate();
   const userRef = useRef();
   const errRef = useRef();
@@ -21,7 +22,13 @@ function Login() {
   useEffect(() => {
     setErrMsg("");
   }, [mail, pwd]);
-
+  useEffect(() => {
+    const cookie = cookies.get("cookie");
+    if (cookie && !auth) {
+      let refreshed = axios.get("http://localhost:5000/api/refresh");
+      console.log(refreshed);
+    }
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -36,6 +43,9 @@ function Login() {
       console.log(JSON.stringify(response?.data));
       const accessToken = response?.data?.accessToken;
       setAuth({ mail, pwd, accessToken });
+      cookies.set("cookie", response.data.refreshToken, {
+        maxAge: 1000 * 60 * 60,
+      });
       setMail("");
       setPwd("");
       setSuccess(true);
