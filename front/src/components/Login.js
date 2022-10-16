@@ -25,7 +25,9 @@ function Login() {
   useEffect(() => {
     const cookie = cookies.get("cookie");
     if (cookie && !auth) {
-      let refreshed = axios.get("http://localhost:5000/api/refresh");
+      let refreshed = axios.post("http://localhost:5000/api/refresh", {
+        token: auth.refreshToken,
+      });
       console.log(refreshed);
     }
   }, []);
