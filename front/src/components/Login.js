@@ -4,8 +4,9 @@ import axios from "axios";
 import useAuth from "../api/useAuth";
 import { Cookies } from "react-cookie";
 const LOGIN_URL = "/login";
+
 function Login() {
-  const { auth, setAuth } = useAuth();
+  const { auth, setAuth, persist, setPersist } = useAuth();
   const cookies = new Cookies();
   let navigate = useNavigate();
   const userRef = useRef();
@@ -24,12 +25,24 @@ function Login() {
   }, [mail, pwd]);
   useEffect(() => {
     const cookie = cookies.get("cookie");
-    if (cookie && !auth) {
-      let refreshed = axios.post("http://localhost:5000/api/refresh", {
-        token: auth.refreshToken,
-      });
-      console.log(refreshed);
-    }
+    console.log(cookie);
+    console.log(Object.keys(auth).length);
+    /* let refreshed = () => {
+      return axios
+        .post("/refresh", {
+          token: cookie,
+        })
+        .then((data) =>
+          setAuth({
+            ...auth,
+            accessToken: data.accessToken,
+            refreshToken: data.refreshToken,
+          })
+        );
+    };*/
+    //if (cookie && !Object.keys(auth).length) {
+    //  refreshed();
+    //}
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,6 +64,7 @@ function Login() {
       setMail("");
       setPwd("");
       setSuccess(true);
+      setPersist(true);
     } catch (err) {
       if (!err?.responose) {
         setErrMsg("No server response");
@@ -65,6 +79,9 @@ function Login() {
       //errRef.current.focus();
     }
   };
+  useEffect(() => {
+    localStorage.setItem("persist", persist);
+  }, [persist]);
   return (
     <>
       {success ? (
