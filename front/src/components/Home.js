@@ -7,7 +7,9 @@ function Home() {
   const { auth, setAuth } = useAuth();
   const refreshToken = async () => {
     try {
-      const res = await axios.post("/refresh", { token: auth.refreshToken });
+      const res = await axios.post("/refresh", {
+        token: auth.refreshToken,
+      });
       setAuth({
         ...auth,
         accessToken: res.data.accessToken,
@@ -45,6 +47,9 @@ function Home() {
         </li>
         <li>
           <Link to="Login">로그인</Link>
+        </li>
+        <li>
+          <Link to="Users">유저</Link>
         </li>
       </ul>
     </div>

@@ -1,12 +1,11 @@
-import { useRef, useState, useEffect, useContext } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../api/useAuth";
 import { Cookies } from "react-cookie";
-const LOGIN_URL = "/login";
 
 function Login() {
-  const { auth, setAuth, persist, setPersist } = useAuth();
+  const { auth, setAuth, authenticated, setAuthenticated } = useAuth();
   const cookies = new Cookies();
   let navigate = useNavigate();
   const userRef = useRef();
@@ -19,6 +18,7 @@ function Login() {
 
   useEffect(() => {
     userRef.current.focus();
+    console.log(auth);
   }, []);
   useEffect(() => {
     setErrMsg("");
@@ -26,7 +26,7 @@ function Login() {
   useEffect(() => {
     const cookie = cookies.get("cookie");
     console.log(cookie);
-    console.log(Object.keys(auth).length);
+    console.log(auth);
     /* let refreshed = () => {
       return axios
         .post("/refresh", {
@@ -48,7 +48,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        LOGIN_URL,
+        "/login",
         JSON.stringify({ mail, pwd }),
         {
           headers: { "Content-Type": "application/json" },
@@ -57,14 +57,17 @@ function Login() {
       );
       console.log(JSON.stringify(response?.data));
       const accessToken = response?.data?.accessToken;
-      setAuth({ mail, pwd, accessToken });
-      cookies.set("cookie", response.data.refreshToken, {
+      const refreshToken = response?.data?.refreshToken;
+      setAuth({ mail, pwd, accessToken, refreshToken });
+      cookies.set("cookie", response.data.refreshToken, mail, pwd, {
         maxAge: 1000 * 60 * 60,
       });
       setMail("");
       setPwd("");
       setSuccess(true);
-      setPersist(true);
+      //setPersist(true);
+      setAuthenticated(true);
+      window.localStorage.setItem("login", Date.now());
     } catch (err) {
       if (!err?.responose) {
         setErrMsg("No server response");
@@ -79,9 +82,32 @@ function Login() {
       //errRef.current.focus();
     }
   };
-  useEffect(() => {
-    localStorage.setItem("persist", persist);
-  }, [persist]);
+  /*useEffect(() => {
+    const cookie = cookies.get("cookie");
+    if (cookie) {
+      const refresh = async () => {
+        return await axios
+          .post("http://localhost:5000/api/refresh", { token: cookie })
+          .then((res) => {
+            console.log(res);
+            setAuth({
+              ...auth,
+              accessToken: res.data.accessToken,
+              refreshToken: res.data.refreshToken,
+            });
+          });
+      };
+      setAuthenticated(true);
+      refresh();
+    }
+  }, [authenticated]);*/
+  /*useEffect(() => {
+    //localStorage.setItem("persist", persist);
+    window.addEventListener('storage',(e)=>{
+      if(e.key==='logout')
+      console.log('storage not login')
+    })
+  }, []);*/
   return (
     <>
       {success ? (

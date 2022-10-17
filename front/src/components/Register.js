@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../api/axios";
+import axios from "axios";
 import "../css/Register.css";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
