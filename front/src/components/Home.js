@@ -5,23 +5,8 @@ import jwt_decode from "jwt-decode";
 
 function Home() {
   const { auth, setAuth } = useAuth();
-  const refreshToken = async () => {
-    try {
-      const res = await axios.post("/refresh", {
-        token: auth.refreshToken,
-      });
-      setAuth({
-        ...auth,
-        accessToken: res.data.accessToken,
-        refreshToken: res.data.refreshToken,
-      });
-      return res.data;
-    } catch (err) {
-      console.log("refresh error");
-    }
-  };
 
-  const axiosJWT = axios.create();
+  /*const axiosJWT = axios.create();
 
   axiosJWT.interceptors.request.use(
     async (config) => {
@@ -36,11 +21,12 @@ function Home() {
     (error) => {
       return Promise.reject(error);
     }
-  );
+  );*/
   //console.log(jwt_decode(auth.accessToken));
+  //console.log(auth.mail);
   return (
     <div>
-      {auth.accessToken ? <div>{auth.accessToken}</div> : <div>null</div>}
+      {auth.accessToken ? <div>{auth.mail}</div> : <div>null</div>}
       <ul>
         <li>
           <Link to="Register">회원가입</Link>

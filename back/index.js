@@ -21,7 +21,7 @@ app.post("/api/register", (req, res) => {
   const check = users.find((x) => x.mail === mail);
   if (!check) {
     users.push({ username, mail, pwd, isAdmin });
-    console.log({ username, mail, pwd, isAdmin });
+    //console.log({ username, mail, pwd, isAdmin });
     console.log(users);
     res.json({ username, mail, pwd, isAdmin });
   } else {
@@ -56,7 +56,7 @@ const generateAccessToken = (user) => {
   });
 };
 const generateRefreshToken = (user) => {
-  return jwt.sign({ id: user.id, isAdmin: user.isAdmin }, "myRefreshKey", {});
+  return jwt.sign({ id: user.id, isAdmin: user.isAdmin }, "myRefreshKey");
 };
 
 app.post("/api/login", (req, res) => {
@@ -107,4 +107,4 @@ app.post("/api/logout", verify, (req, res) => {
   refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
   res.status(200).json("logged out successfully");
 });
-app.listen(5000, () => console.log("back running"));
+app.listen(5000, () => console.log("back running!"));

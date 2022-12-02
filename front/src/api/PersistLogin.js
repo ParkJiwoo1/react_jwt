@@ -26,10 +26,10 @@ const PersistLogin = () => {
     return () => (isMounted = false);
   }, []);
 
-  /*useEffect(() => {
+  useEffect(() => {
     console.log(`isLoading: ${isLoading}`);
     console.log(`aT: ${JSON.stringify(auth?.accessToken)}`);
-  }, [isLoading]);*/
+  }, [isLoading]);
 
   return (
     <>{!persist ? <Outlet /> : isLoading ? <p>Loading...</p> : <Outlet />}</>

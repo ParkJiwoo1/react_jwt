@@ -2,11 +2,9 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../api/useAuth";
-import { Cookies } from "react-cookie";
-
+import { setCookie } from "../api/UseCookie";
 function Login() {
-  const { auth, setAuth, authenticated, setAuthenticated } = useAuth();
-  const cookies = new Cookies();
+  const { auth, setAuth } = useAuth();
   let navigate = useNavigate();
   const userRef = useRef();
   const errRef = useRef();
@@ -18,15 +16,13 @@ function Login() {
 
   useEffect(() => {
     userRef.current.focus();
-    console.log(auth);
+    //console.log(auth);
   }, []);
   useEffect(() => {
     setErrMsg("");
   }, [mail, pwd]);
   useEffect(() => {
-    const cookie = cookies.get("cookie");
-    console.log(cookie);
-    console.log(auth);
+    //console.log(auth);
     /* let refreshed = () => {
       return axios
         .post("/refresh", {
@@ -53,21 +49,19 @@ function Login() {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
       console.log(JSON.stringify(response?.data));
       const accessToken = response?.data?.accessToken;
       const refreshToken = response?.data?.refreshToken;
       setAuth({ mail, pwd, accessToken, refreshToken });
-      cookies.set("cookie", response.data.refreshToken, mail, pwd, {
+      setCookie("myToken", refreshToken);
+      /*cookies.set("cookie", response.data.refreshToken, {
         maxAge: 1000 * 60 * 60,
-      });
+      });*/
       setMail("");
       setPwd("");
       setSuccess(true);
-      //setPersist(true);
-      setAuthenticated(true);
-      window.localStorage.setItem("login", Date.now());
     } catch (err) {
       if (!err?.responose) {
         setErrMsg("No server response");
@@ -82,6 +76,7 @@ function Login() {
       //errRef.current.focus();
     }
   };
+
   /*useEffect(() => {
     const cookie = cookies.get("cookie");
     if (cookie) {
