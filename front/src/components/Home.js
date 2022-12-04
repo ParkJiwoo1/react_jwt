@@ -1,10 +1,21 @@
 import { Link } from "react-router-dom";
-import axios from "axios";
 import useAuth from "../api/useAuth";
-import jwt_decode from "jwt-decode";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const { auth, setAuth } = useAuth();
+  const navigate = useNavigate();
+  const logout = async () => {
+    await axios.post("/logout", {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    });
+    // Clear user from context
+    setAuth({});
+    // Navigate back to startpage
+    navigate("/");
+  };
 
   return (
     <div>
@@ -19,6 +30,7 @@ function Home() {
         <li>
           <Link to="Users">유저</Link>
         </li>
+        <button onClick={() => logout()}>log out</button>
       </ul>
     </div>
   );

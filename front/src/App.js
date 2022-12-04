@@ -21,10 +21,11 @@ function App() {
       const res = async () => {
         try {
           const response = await axios.post("/refresh", { token: cookie });
-
-          setAuth((prev) => {
+          console.log(response.data);
+          setAuth(() => {
             return {
-              ...prev,
+              mail: response.data.user.mail,
+              pwd: response.data.user.pwd,
               accessToken: response.data.accessToken,
               refreshToken: response.data.refreshToken,
             };
