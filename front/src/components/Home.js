@@ -6,24 +6,6 @@ import jwt_decode from "jwt-decode";
 function Home() {
   const { auth, setAuth } = useAuth();
 
-  /*const axiosJWT = axios.create();
-
-  axiosJWT.interceptors.request.use(
-    async (config) => {
-      let currentDate = new Date();
-      const decoded = jwt_decode(auth.accessToken);
-      if (decoded.exp * 1000 < currentDate.getTime()) {
-        const refreshData = await refreshToken();
-        config.headers["authorization"] = "Bearer " + refreshData.accessToken;
-      }
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );*/
-  //console.log(jwt_decode(auth.accessToken));
-  //console.log(auth.mail);
   return (
     <div>
       {auth.accessToken ? <div>{auth.mail}</div> : <div>null</div>}

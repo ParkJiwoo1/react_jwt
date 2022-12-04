@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import useAuth from "../api/useAuth";
-import { Cookies } from "react-cookie";
-import axios from "axios";
 
 function Users() {
-  const { auth, setAuth, authenticated, setAuthenticated } = useAuth();
+  const { auth, setAuth } = useAuth();
   console.log(auth);
   return (
     <div>

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../api/useAuth";
 import { setCookie } from "../api/UseCookie";
+
 function Login() {
   const { auth, setAuth } = useAuth();
   let navigate = useNavigate();
@@ -21,25 +22,7 @@ function Login() {
   useEffect(() => {
     setErrMsg("");
   }, [mail, pwd]);
-  useEffect(() => {
-    //console.log(auth);
-    /* let refreshed = () => {
-      return axios
-        .post("/refresh", {
-          token: cookie,
-        })
-        .then((data) =>
-          setAuth({
-            ...auth,
-            accessToken: data.accessToken,
-            refreshToken: data.refreshToken,
-          })
-        );
-    };*/
-    //if (cookie && !Object.keys(auth).length) {
-    //  refreshed();
-    //}
-  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -73,36 +56,9 @@ function Login() {
         setErrMsg("login failed");
       }
       console.log(errMsg);
-      //errRef.current.focus();
     }
   };
 
-  /*useEffect(() => {
-    const cookie = cookies.get("cookie");
-    if (cookie) {
-      const refresh = async () => {
-        return await axios
-          .post("http://localhost:5000/api/refresh", { token: cookie })
-          .then((res) => {
-            console.log(res);
-            setAuth({
-              ...auth,
-              accessToken: res.data.accessToken,
-              refreshToken: res.data.refreshToken,
-            });
-          });
-      };
-      setAuthenticated(true);
-      refresh();
-    }
-  }, [authenticated]);*/
-  /*useEffect(() => {
-    //localStorage.setItem("persist", persist);
-    window.addEventListener('storage',(e)=>{
-      if(e.key==='logout')
-      console.log('storage not login')
-    })
-  }, []);*/
   return (
     <>
       {success ? (

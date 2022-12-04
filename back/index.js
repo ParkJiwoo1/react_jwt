@@ -11,6 +11,13 @@ const users = [
     pwd: "a1234",
     isAdmin: true,
   },
+  {
+    id: "2",
+    username: "kim",
+    mail: "kim@gmail.com",
+    pwd: "b1234",
+    isAdmin: true,
+  },
 ];
 
 let refreshTokens = [];
@@ -21,7 +28,6 @@ app.post("/api/register", (req, res) => {
   const check = users.find((x) => x.mail === mail);
   if (!check) {
     users.push({ username, mail, pwd, isAdmin });
-    //console.log({ username, mail, pwd, isAdmin });
     console.log(users);
     res.json({ username, mail, pwd, isAdmin });
   } else {
