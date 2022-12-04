@@ -9,13 +9,11 @@ import { CookiesProvider } from "react-cookie";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    {/* <CookiesProvider> */}
     <AuthProvider>
       <Routes>
         <Route path="/*" element={<App />} />
       </Routes>
     </AuthProvider>
-    {/* </CookiesProvider> */}
   </BrowserRouter>,
 );
 

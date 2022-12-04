@@ -4,10 +4,7 @@ import { Cookies } from "react-cookie";
 import axios from "axios";
 
 function Users() {
-  const [users, setUsers] = useState("");
-  const cookies = new Cookies();
   const { auth, setAuth, authenticated, setAuthenticated } = useAuth();
-  let cookie = cookies.get("cookie");
   console.log(auth);
   return (
     <div>
@@ -22,7 +19,6 @@ function Users() {
         ) : (
           <div>null</div>
         )}
-        <div>{cookie}</div>
         <button>refresh</button>
       </article>
     </div>
