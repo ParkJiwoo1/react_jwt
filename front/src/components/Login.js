@@ -8,7 +8,6 @@ function Login() {
   const { auth, setAuth } = useAuth();
   let navigate = useNavigate();
   const userRef = useRef();
-  const errRef = useRef();
 
   const [mail, setMail] = useState("");
   const [pwd, setPwd] = useState("");
@@ -17,7 +16,6 @@ function Login() {
 
   useEffect(() => {
     userRef.current.focus();
-    //console.log(auth);
   }, []);
   useEffect(() => {
     setErrMsg("");
@@ -39,9 +37,6 @@ function Login() {
       const refreshToken = response?.data?.refreshToken;
       setAuth({ mail, pwd, accessToken, refreshToken });
       setCookie("myToken", refreshToken);
-      /*cookies.set("cookie", response.data.refreshToken, {
-        maxAge: 1000 * 60 * 60,
-      });*/
       setMail("");
       setPwd("");
       setSuccess(true);
